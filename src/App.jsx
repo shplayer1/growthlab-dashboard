@@ -553,7 +553,9 @@ function AuthPage({ onLogin }) {
   };
 
   return (
-    <div className="auth-wrap">
+    <>
+      <style>{G}</style>
+      <div className="auth-wrap">
       <div className="auth-glow" />
       <div className="auth-box fade-in">
         <div className="auth-logo">INSIGHT OUTPUT</div>
