@@ -209,8 +209,7 @@ function AuthPage({ onLogin }) {
   };
 
   return (
-    <>
-      <div className="auth-wrap">
+    <div className="auth-wrap">
       <div className="auth-glow" />
       <div className="auth-box fade-in">
         <div className="auth-logo">INSIGHT OUTPUT</div>
@@ -254,7 +253,6 @@ function AuthPage({ onLogin }) {
         <div className="auth-switch">
           {tab === "login" ? <>계정이 없으신가요? <span onClick={() => setTab("signup")}>회원가입</span></> : <>이미 계정이 있으신가요? <span onClick={() => setTab("login")}>로그인</span></>}
         </div>
-      </div>
     </div>
   );
 }
