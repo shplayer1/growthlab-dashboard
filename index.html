@@ -1,3 +1,143 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GrowthLab - 퍼포먼스 애널리틱스</title><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:#e2e8f0;min-height:100vh}.container{max-width:1800px;margin:0 auto;padding:20px}.auth-container{display:flex;justify-content:center;align-items:center;min-height:100vh}.auth-form{background:rgba(30,41,59,0.8);border:1px solid rgba(16,185,129,0.2);padding:40px;border-radius:12px;width:100%;max-width:400px;backdrop-filter:blur(10px)}.auth-form h1{color:#10b981;margin-bottom:30px;text-align:center;font-size:24px}.form-group{margin-bottom:20px}.form-group label{display:block;margin-bottom:8px;color:#94a3b8;font-size:13px;font-weight:500;text-transform:uppercase}.form-group input{width:100%;padding:12px;border:1px solid rgba(148,163,184,0.2);background:rgba(148,163,184,0.05);border-radius:6px;color:#e2e8f0;font-size:14px}.form-group input:focus{outline:0;border-color:#10b981;background:rgba(16,185,129,0.05)}.btn{width:100%;padding:12px;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.3);color:#10b981;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;transition:all 0.3s;margin-bottom:10px}.btn:hover{background:rgba(16,185,129,0.3)}.btn.google{background:rgba(59,130,246,0.2)!important;border-color:rgba(59,130,246,0.3)!important;color:#3b82f6!important}.toggle-auth{text-align:center;color:#94a3b8;font-size:13px}.toggle-auth a{color:#10b981;cursor:pointer;text-decoration:underline}.admin-badge{background:#fbbf24;color:#000;padding:4px 8px;border-radius:4px;font-size:10px;font-weight:bold}header{background:rgba(16,185,129,0.1);border-bottom:1px solid rgba(16,185,129,0.2);padding:15px 20px;display:flex;justify-content:space-between;align-items:center}.header-left h1{color:#10b981;font-size:20px;display:flex;align-items:center;gap:10px}.header-right{display:flex;align-items:center;gap:15px}.user-info{display:flex;align-items:center;gap:10px;color:#94a3b8;font-size:12px}.logout-btn{padding:6px 12px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3);color:#ef4444;border-radius:4px;cursor:pointer;font-size:12px}.logout-btn:hover{background:rgba(239,68,68,0.3)}.tabs{display:flex;gap:10px;margin:20px 0;border-bottom:1px solid rgba(148,163,184,0.2);padding-bottom:10px;flex-wrap:wrap}.tab-btn{padding:10px 18px;border:0;background:0;color:#94a3b8;cursor:pointer;border-radius:4px;font-size:13px;transition:all 0.3s}.tab-btn.active{color:#10b981;background:rgba(16,185,129,0.1)}.tab-content{display:none}.tab-content.active{display:block}.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}.kpi-card{background:rgba(148,163,184,0.08);border:1px solid rgba(148,163,184,0.2);padding:12px;border-radius:6px}.kpi-label{color:#94a3b8;font-size:10px;margin-bottom:6px;text-transform:uppercase}.kpi-value{color:#10b981;font-size:18px;font-weight:bold}.chart-container{background:rgba(30,41,59,0.5);border:1px solid rgba(148,163,184,0.2);padding:15px;border-radius:8px;height:350px;margin-bottom:20px}.table-wrap{background:rgba(30,41,59,0.5);border:1px solid rgba(148,163,184,0.2);border-radius:8px;overflow:auto}table{width:100%;border-collapse:collapse;font-size:11px}th{background:rgba(16,185,129,0.15);padding:10px;text-align:left;color:#10b981;font-weight:600;border-bottom:1px solid rgba(16,185,129,0.3)}td{padding:10px;border-bottom:1px solid rgba(148,163,184,0.1)}tr:hover{background:rgba(16,185,129,0.05)}.hidden{display:none}</style></head><body><div id="authScreen" class="hidden"><div class="auth-container"><div id="loginForm" class="auth-form"><h1>로그인</h1><div class="form-group"><label>이메일</label><input type="email" id="loginEmail" placeholder="your@email.com"></div><div class="form-group"><label>비밀번호</label><input type="password" id="loginPassword" placeholder="••••••••"></div><button class="btn" onclick="handleLogin()">로그인</button><div style="margin:20px 0;display:flex;align-items:center;gap:10px"><div style="flex:1;height:1px;background:rgba(148,163,184,0.2)"></div><span style="color:#94a3b8;font-size:12px">또는</span><div style="flex:1;height:1px;background:rgba(148,163,184,0.2)"></div></div><button class="btn google" onclick="handleGoogleLogin()">🔵 Google로 로그인</button><div class="toggle-auth">계정이 없으신가요? <a onclick="toggleAuthForm()">회원가입</a></div></div><div id="signupForm" class="auth-form hidden"><h1>회원가입</h1><div class="form-group"><label>이름 *</label><input type="text" id="signupName" placeholder="성현" required></div><div class="form-group"><label>이메일</label><input type="email" id="signupEmail" placeholder="your@email.com"></div><div class="form-group"><label>비밀번호</label><input type="password" id="signupPassword" placeholder="••••••••"></div><div class="form-group"><label>회사명</label><input type="text" id="signupCompany" placeholder="회사명"></div><button class="btn" onclick="handleSignup()">회원가입</button><div style="margin:20px 0;display:flex;align-items:center;gap:10px"><div style="flex:1;height:1px;background:rgba(148,163,184,0.2)"></div><span style="color:#94a3b8;font-size:12px">또는</span><div style="flex:1;height:1px;background:rgba(148,163,184,0.2)"></div></div><button class="btn google" onclick="handleGoogleSignup()">🔵 Google로 가입</button><div class="toggle-auth">이미 계정이 있으신가요? <a onclick="toggleAuthForm()">로그인</a></div></div></div></div><div id="mainScreen" class="hidden"><header><div class="header-left"><h1>📊 GrowthLab</h1></div><div class="header-right"><div class="user-info"><span id="userNameDisplay"></span><span id="googleBadge" style="background:#3b82f6;color:#fff;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;display:none">Google</span><span id="adminBadge" class="admin-badge" style="display:none">ADMIN</span></div><button class="logout-btn" onclick="handleLogout()">로그아웃</button></div></header><div class="container"><div id="userDashboard" class="tab-content active"><div class="tabs"><button class="tab-btn active" onclick="switchTab('userDashboard',event)">📊 대시보드</button><button class="tab-btn" onclick="switchTab('userAnalytics',event)">📈 분석</button></div><div id="userDashboard-content"><div class="kpi-grid"><div class="kpi-card"><div class="kpi-label">총 노출수</div><div class="kpi-value">180,600</div></div><div class="kpi-card"><div class="kpi-label">총 클릭수</div><div class="kpi-value">1,087</div></div><div class="kpi-card"><div class="kpi-label">총 전환수</div><div class="kpi-value">540</div></div><div class="kpi-card"><div class="kpi-label">ROAS</div><div class="kpi-value">980.42%</div></div></div></div></div><div id="userAnalytics" class="tab-content"><div class="chart-container"><canvas id="userChart"></canvas></div></div><div id="adminDashboard" class="tab-content hidden"><div class="tabs"><button class="tab-btn active" onclick="switchTab('adminDashboard',event)">👥 회원 관리</button><button class="tab-btn" onclick="switchTab('adminStats',event)">📊 통계</button><button class="tab-btn" onclick="switchTab('adminLogs',event)">📋 접속 로그</button></div><div id="adminDashboard-content"><h2 style="color:#10b981;margin-bottom:15px">📋 가입 회원 목록</h2><div class="table-wrap"><table><thead><tr><th>번호</th><th>이름</th><th>이메일</th><th>회사명</th><th>가입일</th><th>관리</th></tr></thead><tbody id="usersTableBody"></tbody></table></div></div></div><div id="adminStats" class="tab-content hidden"><div class="kpi-grid"><div class="kpi-card"><div class="kpi-label">총 회원수</div><div class="kpi-value" id="totalUsers">0</div></div><div class="kpi-card"><div class="kpi-label">오늘 가입</div><div class="kpi-value" id="todayUsers">0</div></div></div></div><div id="adminLogs" class="tab-content hidden"><h2 style="color:#10b981;margin-bottom:15px">🔐 접속 로그</h2><div class="table-wrap"><table><thead><tr><th>번호</th><th>사용자명</th><th>이메일</th><th>접속 시간</th><th>상태</th><th>위치</th></tr></thead><tbody id="logsTableBody"></tbody></table></div></div></div></div><script>class UserManager{static getAllUsers(){const u=localStorage.getItem('growthlab_users');return u?JSON.parse(u):[]}static addUser(n,e,p,c){const u=this.getAllUsers();u.push({id:Date.now(),name:n,email:e,password:p,company:c,createdAt:new Date().toISOString(),isAdmin:e==='admin@growthlab.com'});localStorage.setItem('growthlab_users',JSON.stringify(u));return u[u.length-1]}static findUser(e){return this.getAllUsers().find(u=>u.email===e)}static deleteUser(e){let u=this.getAllUsers();u=u.filter(x=>x.email!==e);localStorage.setItem('growthlab_users',JSON.stringify(u))}}class LoginLogger{static addLog(n,e){const l=this.getAllLogs();l.push({id:Date.now(),name:n,email:e,loginTime:new Date().toISOString(),status:'접속',location:this.getLocation()});localStorage.setItem('growthlab_logs',JSON.stringify(l))}static getAllLogs(){const l=localStorage.getItem('growthlab_logs');return l?JSON.parse(l):[]}static getLocation(){const loc=['서울','부산','인천','대구','대전','광주','울산'];return loc[Math.floor(Math.random()*loc.length)]}}let currentUser=null;window.onload=function(){const l=localStorage.getItem('growthlab_loggedIn');currentUser=l?JSON.parse(l):null;currentUser?showMainScreen():showAuthScreen()};function showAuthScreen(){document.getElementById('authScreen').classList.remove('hidden');document.getElementById('mainScreen').classList.add('hidden')}function showMainScreen(){document.getElementById('authScreen').classList.add('hidden');document.getElementById('mainScreen').classList.remove('hidden');document.getElementById('userNameDisplay').textContent=currentUser.name;if(currentUser.password==='google_oauth')document.getElementById('googleBadge').style.display='inline-block';if(currentUser.isAdmin){document.getElementById('adminBadge').style.display='inline-block';loadAdminDashboard()}}function toggleAuthForm(){document.getElementById('loginForm').classList.toggle('hidden');document.getElementById('signupForm').classList.toggle('hidden')}function handleLogin(){const e=document.getElementById('loginEmail').value;const p=document.getElementById('loginPassword').value;if(!e||!p){alert('이메일과 비밀번호를 입력해주세요');return}const u=UserManager.findUser(e);if(u&&u.password===p){currentUser=u;localStorage.setItem('growthlab_loggedIn',JSON.stringify(u));LoginLogger.addLog(u.name,u.email);showMainScreen()}else{alert('이메일 또는 비밀번호가 잘못되었습니다')}}function handleSignup(){const n=document.getElementById('signupName').value;const e=document.getElementById('signupEmail').value;const p=document.getElementById('signupPassword').value;const c=document.getElementById('signupCompany').value;if(!n){alert('이름은 필수입니다');return}if(!e||!p){alert('이메일과 비밀번호를 입력해주세요');return}if(UserManager.findUser(e)){alert('이미 존재하는 이메일입니다');return}UserManager.addUser(n,e,p,c);alert('회원가입 완료! 로그인해주세요');document.getElementById('signupName').value='';document.getElementById('signupEmail').value='';document.getElementById('signupPassword').value='';document.getElementById('signupCompany').value='';toggleAuthForm()}function handleLogout(){if(confirm('로그아웃하시겠습니까?')){localStorage.removeItem('growthlab_loggedIn');currentUser=null;document.getElementById('loginEmail').value='';document.getElementById('loginPassword').value='';showAuthScreen()}}function handleGoogleLogin(){const p=[{name:'김성현',email:'sunghyun@gmail.com',company:'GrowthLab'},{name:'박민수',email:'minsu@gmail.com',company:'마케팅'},{name:'이준호',email:'junho@gmail.com',company:'스타트업'}];const prof=p[Math.floor(Math.random()*p.length)];let u=UserManager.findUser(prof.email);if(!u)u=UserManager.addUser(prof.name,prof.email,'google_oauth',prof.company);currentUser=u;localStorage.setItem('growthlab_loggedIn',JSON.stringify(u));LoginLogger.addLog(u.name,u.email);alert('Google 로그인
-👤 '+u.name);showMainScreen()}function handleGoogleSignup(){const p=[{name:'김성현',email:'sunghyun@gmail.com',company:'GrowthLab'},{name:'박민수',email:'minsu@gmail.com',company:'마케팅'},{name:'이준호',email:'junho@gmail.com',company:'스타트업'}];const prof=p[Math.floor(Math.random()*p.length)];let u=UserManager.findUser(prof.email);if(u){alert('이미 가입됨');toggleAuthForm();return}u=UserManager.addUser(prof.name,prof.email,'google_oauth',prof.company);alert('Google 가입 완료
-👤 '+u.name);toggleAuthForm()}function switchTab(t,e){document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));if(t.includes('user')){document.getElementById('userDashboard').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden')}else{document.getElementById('userDashboard').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden')}document.getElementById(t+'-content')?.classList.add('active');e.target.classList.add('active')}function loadAdminDashboard(){const u=UserManager.getAllUsers();let h='';u.forEach((x,i)=>{const d=new Date(x.createdAt).toLocaleDateString('ko-KR');h+='<tr><td>'+(i+1)+'</td><td>'+x.name+'</td><td>'+x.email+'</td><td>'+(x.company||'-')+'</td><td>'+d+'</td><td><button onclick="deleteUserAdmin(''+x.email+'')" style="color:#ef4444;cursor:pointer;border:none;background:none">삭제</button></td></tr>'});document.getElementById('usersTableBody').innerHTML=h||'<tr><td colspan="6" style="text-align:center;padding:20px">회원이 없습니다</td></tr>';document.getElementById('totalUsers').textContent=u.length;const today=new Date().toDateString();const tc=u.filter(x=>new Date(x.createdAt).toDateString()===today).length;document.getElementById('todayUsers').textContent=tc;loadLoginLogs()}function loadLoginLogs(){const l=LoginLogger.getAllLogs();let h='';const sl=l.sort((a,b)=>new Date(b.loginTime)-new Date(a.loginTime));sl.forEach((x,i)=>{const d=new Date(x.loginTime);h+='<tr><td>'+(i+1)+'</td><td>'+x.name+'</td><td>'+x.email+'</td><td>'+d.toLocaleDateString('ko-KR')+' '+d.toLocaleTimeString('ko-KR')+'</td><td style="color:#10b981;font-weight:bold">✓ '+x.status+'</td><td>'+x.location+'</td></tr>'});document.getElementById('logsTableBody').innerHTML=h||'<tr><td colspan="6" style="text-align:center;padding:20px">로그가 없습니다</td></tr>'}function deleteUserAdmin(e){if(confirm('삭제?')){UserManager.deleteUser(e);loadAdminDashboard()}}window.addEventListener('load',function(){const u=UserManager.getAllUsers();if(u.length===0){UserManager.addUser('관리자','admin@growthlab.com','admin123','GrowthLab');UserManager.addUser('테스트','test@example.com','test123','테스트')}});</script></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GrowthLab</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:#e2e8f0;min-height:100vh}.container{max-width:1800px;margin:0 auto;padding:20px}.auth-container{display:flex;justify-content:center;align-items:center;min-height:100vh}.auth-form{background:rgba(30,41,59,0.8);border:1px solid rgba(16,185,129,0.2);padding:40px;border-radius:12px;width:100%;max-width:400px}.auth-form h1{color:#10b981;margin-bottom:30px;text-align:center;font-size:24px}.form-group{margin-bottom:20px}.form-group label{display:block;margin-bottom:8px;color:#94a3b8;font-size:13px;font-weight:500;text-transform:uppercase}.form-group input{width:100%;padding:12px;border:1px solid rgba(148,163,184,0.2);background:rgba(148,163,184,0.05);border-radius:6px;color:#e2e8f0;font-size:14px}.form-group input:focus{outline:0;border-color:#10b981;background:rgba(16,185,129,0.05)}.btn{width:100%;padding:12px;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.3);color:#10b981;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;margin-bottom:10px;transition:all 0.3s}.btn:hover{background:rgba(16,185,129,0.3)}.btn.google{background:rgba(59,130,246,0.2)!important;border-color:rgba(59,130,246,0.3)!important;color:#3b82f6!important}.toggle-auth{text-align:center;color:#94a3b8;font-size:13px}.toggle-auth a{color:#10b981;cursor:pointer;text-decoration:underline}.admin-badge{background:#fbbf24;color:#000;padding:4px 8px;border-radius:4px;font-size:10px;font-weight:bold}header{background:rgba(16,185,129,0.1);border-bottom:1px solid rgba(16,185,129,0.2);padding:15px 20px;display:flex;justify-content:space-between;align-items:center}.header-left h1{color:#10b981;font-size:20px;display:flex;align-items:center;gap:10px}.header-right{display:flex;align-items:center;gap:15px}.user-info{display:flex;align-items:center;gap:10px;color:#94a3b8;font-size:12px}.logout-btn{padding:6px 12px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3);color:#ef4444;border-radius:4px;cursor:pointer;font-size:12px}.logout-btn:hover{background:rgba(239,68,68,0.3)}.tabs{display:flex;gap:10px;margin:20px 0;border-bottom:1px solid rgba(148,163,184,0.2);padding-bottom:10px;flex-wrap:wrap}.tab-btn{padding:10px 18px;border:0;background:0;color:#94a3b8;cursor:pointer;border-radius:4px;font-size:13px;transition:all 0.3s}.tab-btn.active{color:#10b981;background:rgba(16,185,129,0.1)}.tab-content{display:none}.tab-content.active{display:block}.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}.kpi-card{background:rgba(148,163,184,0.08);border:1px solid rgba(148,163,184,0.2);padding:12px;border-radius:6px}.kpi-label{color:#94a3b8;font-size:10px;margin-bottom:6px;text-transform:uppercase}.kpi-value{color:#10b981;font-size:18px;font-weight:bold}.table-wrap{background:rgba(30,41,59,0.5);border:1px solid rgba(148,163,184,0.2);border-radius:8px;overflow:auto}table{width:100%;border-collapse:collapse;font-size:11px}th{background:rgba(16,185,129,0.15);padding:10px;text-align:left;color:#10b981;font-weight:600;border-bottom:1px solid rgba(16,185,129,0.3)}td{padding:10px;border-bottom:1px solid rgba(148,163,184,0.1)}tr:hover{background:rgba(16,185,129,0.05)}.hidden{display:none}</style>
+</head>
+<body>
+<div id="authScreen"><div class="auth-container"><div id="loginForm" class="auth-form"><h1>로그인</h1><div class="form-group"><label>이메일</label><input type="email" id="loginEmail" placeholder="your@email.com"></div><div class="form-group"><label>비밀번호</label><input type="password" id="loginPassword" placeholder="••••••••"></div><button class="btn" onclick="handleLogin()">로그인</button><button class="btn google" onclick="handleGoogleLogin()">🔵 Google로 로그인</button><div class="toggle-auth">계정이 없으신가요? <a onclick="toggleAuthForm()">회원가입</a></div></div><div id="signupForm" class="auth-form hidden"><h1>회원가입</h1><div class="form-group"><label>이름 *</label><input type="text" id="signupName" placeholder="성현" required></div><div class="form-group"><label>이메일</label><input type="email" id="signupEmail" placeholder="your@email.com"></div><div class="form-group"><label>비밀번호</label><input type="password" id="signupPassword" placeholder="••••••••"></div><div class="form-group"><label>회사명</label><input type="text" id="signupCompany" placeholder="회사명"></div><button class="btn" onclick="handleSignup()">회원가입</button><button class="btn google" onclick="handleGoogleSignup()">🔵 Google로 가입</button><div class="toggle-auth">이미 계정이 있으신가요? <a onclick="toggleAuthForm()">로그인</a></div></div></div></div><div id="mainScreen" class="hidden"><header><div class="header-left"><h1>📊 GrowthLab</h1></div><div class="header-right"><div class="user-info"><span id="userNameDisplay"></span><span id="googleBadge" style="background:#3b82f6;color:white;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:bold;display:none">Google</span><span id="adminBadge" class="admin-badge" style="display:none">ADMIN</span></div><button class="logout-btn" onclick="handleLogout()">로그아웃</button></div></header><div class="container"><div class="tabs"><button class="tab-btn active" onclick="switchTab(0,event)">📊 대시보드</button><button class="tab-btn" onclick="switchTab(1,event)">👥 회원 관리</button></div><div id="tab0" class="tab-content active"><div class="kpi-grid"><div class="kpi-card"><div class="kpi-label">총 노출수</div><div class="kpi-value">180,600</div></div><div class="kpi-card"><div class="kpi-label">총 클릭수</div><div class="kpi-value">1,087</div></div><div class="kpi-card"><div class="kpi-label">총 전환수</div><div class="kpi-value">540</div></div><div class="kpi-card"><div class="kpi-label">ROAS</div><div class="kpi-value">980.42%</div></div></div></div><div id="tab1" class="tab-content hidden"><h2 style="color:#10b981;margin-bottom:15px">📋 회원 목록</h2><div class="table-wrap"><table><thead><tr><th>번호</th><th>이름</th><th>이메일</th><th>회사명</th><th>가입일</th></tr></thead><tbody id="usersTableBody"></tbody></table></div></div></div></div></div>
+<script>
+const UserManager = {
+  getAllUsers: () => JSON.parse(localStorage.getItem("growthlab_users") || "[]"),
+  addUser: (n,e,p,c) => {
+    const u = UserManager.getAllUsers();
+    u.push({id:Date.now(),name:n,email:e,password:p,company:c,createdAt:new Date().toISOString(),isAdmin:e==="admin@growthlab.com"});
+    localStorage.setItem("growthlab_users",JSON.stringify(u));
+    return u[u.length-1];
+  },
+  findUser: (e) => UserManager.getAllUsers().find(u=>u.email===e),
+  deleteUser: (e) => {
+    let u = UserManager.getAllUsers();
+    u = u.filter(x=>x.email!==e);
+    localStorage.setItem("growthlab_users",JSON.stringify(u));
+  }
+};
+
+let currentUser = null;
+window.onload = () => {
+  const l = localStorage.getItem("growthlab_loggedIn");
+  currentUser = l ? JSON.parse(l) : null;
+  currentUser ? showMainScreen() : showAuthScreen();
+};
+
+function showAuthScreen(){
+  document.getElementById("authScreen").classList.remove("hidden");
+  document.getElementById("mainScreen").classList.add("hidden");
+}
+
+function showMainScreen(){
+  document.getElementById("authScreen").classList.add("hidden");
+  document.getElementById("mainScreen").classList.remove("hidden");
+  document.getElementById("userNameDisplay").textContent = currentUser.name;
+  if(currentUser.password==="google_oauth") document.getElementById("googleBadge").style.display = "inline-block";
+  if(currentUser.isAdmin) {
+    document.getElementById("adminBadge").style.display = "inline-block";
+    loadUsers();
+  }
+}
+
+function toggleAuthForm(){
+  document.getElementById("loginForm").classList.toggle("hidden");
+  document.getElementById("signupForm").classList.toggle("hidden");
+}
+
+function handleLogin(){
+  const e = document.getElementById("loginEmail").value;
+  const p = document.getElementById("loginPassword").value;
+  if(!e||!p){alert("이메일과 비밀번호를 입력해주세요");return}
+  const u = UserManager.findUser(e);
+  if(u&&u.password===p){
+    currentUser = u;
+    localStorage.setItem("growthlab_loggedIn",JSON.stringify(u));
+    showMainScreen();
+  }else{
+    alert("이메일 또는 비밀번호가 잘못되었습니다");
+  }
+}
+
+function handleSignup(){
+  const n = document.getElementById("signupName").value;
+  const e = document.getElementById("signupEmail").value;
+  const p = document.getElementById("signupPassword").value;
+  const c = document.getElementById("signupCompany").value;
+  if(!n){alert("이름은 필수입니다");return}
+  if(!e||!p){alert("이메일과 비밀번호를 입력해주세요");return}
+  if(UserManager.findUser(e)){alert("이미 존재하는 이메일입니다");return}
+  UserManager.addUser(n,e,p,c);
+  alert("회원가입 완료! 로그인해주세요");
+  document.getElementById("signupName").value="";
+  document.getElementById("signupEmail").value="";
+  document.getElementById("signupPassword").value="";
+  document.getElementById("signupCompany").value="";
+  toggleAuthForm();
+}
+
+function handleLogout(){
+  if(confirm("로그아웃하시겠습니까?")){
+    localStorage.removeItem("growthlab_loggedIn");
+    currentUser = null;
+    document.getElementById("loginEmail").value="";
+    document.getElementById("loginPassword").value="";
+    showAuthScreen();
+  }
+}
+
+function handleGoogleLogin(){
+  const profiles = [{name:"김성현",email:"sunghyun@gmail.com",company:"GrowthLab"},{name:"박민수",email:"minsu@gmail.com",company:"마케팅"},{name:"이준호",email:"junho@gmail.com",company:"스타트업"}];
+  const prof = profiles[Math.floor(Math.random()*profiles.length)];
+  let u = UserManager.findUser(prof.email);
+  if(!u) u = UserManager.addUser(prof.name,prof.email,"google_oauth",prof.company);
+  currentUser = u;
+  localStorage.setItem("growthlab_loggedIn",JSON.stringify(u));
+  alert("Google 로그인: " + u.name);
+  showMainScreen();
+}
+
+function handleGoogleSignup(){
+  const profiles = [{name:"김성현",email:"sunghyun@gmail.com",company:"GrowthLab"},{name:"박민수",email:"minsu@gmail.com",company:"마케팅"},{name:"이준호",email:"junho@gmail.com",company:"스타트업"}];
+  const prof = profiles[Math.floor(Math.random()*profiles.length)];
+  let u = UserManager.findUser(prof.email);
+  if(u){alert("이미 가입됨");toggleAuthForm();return}
+  u = UserManager.addUser(prof.name,prof.email,"google_oauth",prof.company);
+  alert("Google 가입 완료: " + u.name);
+  toggleAuthForm();
+}
+
+function switchTab(idx, e){
+  document.querySelectorAll(".tab-content").forEach(x=>x.classList.add("hidden"));
+  document.querySelectorAll(".tab-btn").forEach(x=>x.classList.remove("active"));
+  document.getElementById("tab"+idx).classList.remove("hidden");
+  e.target.classList.add("active");
+  if(idx===1) loadUsers();
+}
+
+function loadUsers(){
+  const u = UserManager.getAllUsers();
+  let h = "";
+  u.forEach((x,i)=>{
+    const d = new Date(x.createdAt).toLocaleDateString("ko-KR");
+    h += "<tr><td>"+(i+1)+"</td><td>"+x.name+"</td><td>"+x.email+"</td><td>"+(x.company||"-")+"</td><td>"+d+"</td></tr>";
+  });
+  document.getElementById("usersTableBody").innerHTML = h || "<tr><td colspan=\"5\" style=\"text-align:center;padding:20px\">회원이 없습니다</td></tr>";
+}
+
+window.addEventListener("load",()=>{
+  const u = UserManager.getAllUsers();
+  if(u.length===0){
+    UserManager.addUser("관리자","admin@growthlab.com","admin123","GrowthLab");
+    UserManager.addUser("테스트","test@example.com","test123","테스트");
+  }
+});
+</script>
+</body>
+</html>
